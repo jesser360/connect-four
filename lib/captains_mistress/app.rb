@@ -26,26 +26,23 @@ module CaptainsMistress
         if (@counter % 2 == 0)
           @counter += 1
           @player1.ask_user(@player1)
-          show_winner(@player1) if @board.check_rows(@player1) == true
-          show_winner(@player1) if @board.check_columns(@player1) == true
-          show_winner(@player1) if @board.check_diagonal(@player1) == true
-          draw if @board.check_draw == true
-
+          check_game_over(@player1)
         else
           @counter += 1
           @player2.ask_user(@player2)
-          show_winner(@player2) if @board.check_rows(@player2) == true
-          show_winner(@player2) if @board.check_columns(@player2) == true
-          show_winner(@player2) if @board.check_diagonal(@player2) == true
-          draw if @board.check_draw == true
+          check_game_over(@player2)
         end
       end
     end
 
+    def check_game_over(player)
+      show_winner(player) if @board.check_for_win(player) == true
+      draw if @board.check_draw == true
+    end
+
     def show_winner(player)
       @board.render_board
-      print 'Game Over -- '
-      print 'Player '
+      print 'Game Over -- Player '
       print player.number
       puts ' won'
       @game_over = true
@@ -63,7 +60,7 @@ module CaptainsMistress
         if answer == 'yes'
           @game_over = false
           @board.reset_board
-        elsif answer = 'no'
+        elsif answer == 'no'
           puts 'OK thanks for playing'
         else
           puts 'please answer yes or no'

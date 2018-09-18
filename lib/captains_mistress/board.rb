@@ -41,24 +41,18 @@ class Board
     player.ask_user(player)
   end
 
-  def check_rows(player)
-    @board.each do |row|
-      row.each_with_index do |space,index|
-        if space == player.piece.to_s
-          # CHANGE TO ONLY CHECK NEARBY ROWS BASED ON SPACE INDEX(check if they exist only)
-          if (row[index-3]==player.piece && row[index-2]==player.piece && row[index-1]==player.piece) || (row[index+3]==player.piece && row[index+2]==player.piece && row[index+1]==player.piece)
-            return true
-          end
-        end
-      end
-    end
-  end
-
-  def check_columns(player)
+  def check_for_win(player)
     @board.each_with_index do |row,index|
       row.each_with_index do |space,i|
         if space == player.piece.to_s
-          if (@board[index-1][i]==player.piece && @board[index-2][i]==player.piece && @board[index-3][i]==player.piece) || (@board[index+1][i]==player.piece && @board[index+2][i]==player.piece && @board[index+3][i]==player.piece)
+          # CHECKING FOR A ROW WIN
+          if (row[i-3]==player.piece && row[i-2]==player.piece && row[i-1]==player.piece) || (row[i+3]==player.piece && row[i+2]==player.piece && row[i+1]==player.piece)
+            return true
+            # CHECKING FOR A HORIZONTAL WIN
+          elsif (@board[index-1][i]==player.piece && @board[index-2][i]==player.piece && @board[index-3][i]==player.piece) || (@board[index+1][i]==player.piece && @board[index+2][i]==player.piece && @board[index+3][i]==player.piece)
+            return true
+            # CHECKING FOR A DIAGONAL WIN
+          elsif (@board[index-1][i-1]==player.piece && @board[index-2][i-2]==player.piece && @board[index-3][i-3]==player.piece) || (@board[index+1][i+1]==player.piece && @board[index+2][i+2]==player.piece && @board[index+3][i+3]==player.piece)
             return true
           end
         end
@@ -75,19 +69,6 @@ class Board
     end
     return true
   end
-
-  def check_diagonal(player)
-    @board.each_with_index do |row,index|
-      row.each_with_index do |space,i|
-        if space == player.piece.to_s
-          if (@board[index-1][i-1]==player.piece && @board[index-2][i-2]==player.piece && @board[index-3][i-3]==player.piece) || (@board[index+1][i+1]==player.piece && @board[index+2][i+2]==player.piece && @board[index+3][i+3]==player.piece)
-            return true
-          end
-        end
-      end
-    end
-  end
-
 
 
 end
